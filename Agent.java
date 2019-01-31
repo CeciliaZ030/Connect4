@@ -28,7 +28,7 @@ public class Agent {
 	}
 	
 	public void alpha_beta(GameBoard GB){
-		
+		//implement the alpha beta prunning here
 	}
 	
 	private void fixed_depth(GameBoard gB2) {
