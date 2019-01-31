@@ -7,6 +7,13 @@ public class Agent {
 	
 	public Agent (GameBoard b, int choice) {
 		this.GB = b;
+		
+// 		Level = 
+//		1. An agent that plays randomly
+//		2. An agent that uses MINIMAX
+//		3. An agent that uses MINIMAX with alpha-beta pruning
+//		4. An agent that uses H-MINIMAX with a fixed depth cutoff
+		
 		this.level = choice;
 	}
 
@@ -24,6 +31,7 @@ public class Agent {
 	
 	public void randomly() {
 		int nth = r.nextInt(GB.column);
+		// GB.player = 2;
 		GB.setBoard(nth);
 	}
 	
