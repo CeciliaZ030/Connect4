@@ -1,5 +1,6 @@
 import java.util.Scanner;
 
+
 public class Main {
 	public static void main(String[] args) {
 		
@@ -26,18 +27,21 @@ public class Main {
 		int ans3 = sc.nextInt();
 		
 		GameBoard GB;
-		Agent AI;
+		Agent AI = null;
 		if(ans1 == 1) {
 			GB = new GameBoard(3,3,3, ans3);
 			AI = new Agent(GB, ans2);
+			GB.init_board(3, 3);
 			
 		} else if(ans1 == 2) {
 			GB = new GameBoard(3,5,3, ans3);
 			AI = new Agent(GB, ans2);
+			GB.init_board(3, 5);
 			
 		} else if(ans1 == 3) {
 			GB = new GameBoard(6,7,4, ans3);
 			AI = new Agent(GB, ans2);
+			GB.init_board(6, 7);
 			
 		} else {
 			System.out.println("Invalid option.");
@@ -46,22 +50,54 @@ public class Main {
 		
 		//REPL Gaming start
 		System.out.println("Game start!");
-		if (ans2 ==1 ) {
+		
+		
+		if (ans3 ==1 ) { //ans3 is the order of playing
 			//User plays first (REPL --> getBoard --> AI)
-			while(!GB.isFinish()) {
+			//User is always player2
+			int moveVal1 = 0;
+			while(!GB.isFinish(ans1)) {
+				GB.print_Board();
+				int maxCol = GB.column-1;
+				System.out.println("Your move [column 0-" + maxCol +"]" );
+				GB.setPlayer(2);
+				//Set the current player as 2
+				moveVal1 = sc.nextInt();
+				GB.setBoard(moveVal1);
+				GB.print_Board();
 				
+				GB.setPlayer(1);
+				System.out.println("I'm thinking...");
+				AI.algorithm(AI.level);
+				// GB.print_Board();
 			}
-			//AI plays first (AI--> setBoard --> REPL)
+			
 		} else {
-			while(!GB.isFinish()) {
+			//AI plays first (AI--> setBoard --> REPL)
+			//AI is always player1
+			while(!GB.isFinish(ans1)) {
+					
+				GB.setPlayer(1);
+				System.out.println("I'm thinking...");
+				AI.algorithm(AI.level);
+				GB.print_Board();
 				
+				int maxCol = GB.column-1;
+				System.out.println("Your move [column 0-" + maxCol +"]" );
+				GB.setPlayer(2);
+				int moveVal2 = 0;
+				moveVal2 = sc.nextInt();
+				GB.setBoard(moveVal2);
+				GB.print_Board();
 			}
+			
+			if (GB.getPlayer() == 1) {
+				System.out.print("Whooops!!! The Computer won the game.");
+			} 
+			if (GB.getPlayer() == 2) {
+				System.out.print(" Congratulations!!! You won the game.");
+			} 
+			
 		}
-		
-		//When the game is considered to be finished, use getPlayer to decide who won
-		System.out.println("Game over!");
-		System.out.println(GB.getPlayer() + "won the game!");
-		
-
 	}
 }
