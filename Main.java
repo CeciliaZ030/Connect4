@@ -8,7 +8,7 @@ public class Main {
 		System.out.println("1. Tiny 3x3x3 Connect-Three");
 		System.out.println("2. Wider 3x5x3 Connect-Three");
 		System.out.println("3. Standard 6x7x4 Connect-Four");
-		System.out.println("CYour choice?");
+		System.out.print("CYour choice? ");
 		
 		Scanner sc = new Scanner(System.in);
 		int ans1 = sc.nextInt();
@@ -18,11 +18,11 @@ public class Main {
 		System.out.println("2. An agent that uses MINIMAX");
 		System.out.println("3. An agent that uses MINIMAX with alpha-beta pruning");
 		System.out.println("4. An agent that uses H-MINIMAX with a fixed depth cutoff");
-		System.out.println("Your choice?");
+		System.out.print("Your choice? ");
 
 		int ans2 = sc.nextInt();
 		
-		System.out.println("Do you want to play RED (1) or YELLOW (2)?");
+		System.out.print("Do you want to play RED (1) or YELLOW (2)? ");
 
 		int ans3 = sc.nextInt();
 		
@@ -55,40 +55,66 @@ public class Main {
 		if (ans3 ==1 ) { //ans3 is the order of playing
 			//User plays first (REPL --> getBoard --> AI)
 			//User is always player2
-			int moveVal1 = 0;
-			while(!GB.isFinish(ans1)) {
-				GB.print_Board();
-				int maxCol = GB.column-1;
-				System.out.println("Your move [column 0-" + maxCol +"]" );
+			int moveVal1 = 0, maxCol = GB.column-1;
+			boolean finish = false;
+			
+			GB.print_Board();
+			
+			while(!finish) {
+				
+				System.out.print("Your move [column 0-" + maxCol +"] ");
 				GB.setPlayer(2);
 				//Set the current player as 2
 				moveVal1 = sc.nextInt();
 				GB.setBoard(moveVal1);
 				GB.print_Board();
 				
-				GB.setPlayer(1);
-				System.out.println("I'm thinking...");
-				AI.algorithm(AI.level);
-				// GB.print_Board();
+				finish = GB.isFinish(ans1); //checks if finish after the user's move
+				// System.out.println("inside the while loop: "+GB.getPlayer()); debug purposes
+				if(!finish) {
+					GB.setPlayer(1);
+					System.out.println("I'm thinking...");
+					AI.algorithm(AI.level);
+					GB.print_Board();
+				}
+				finish = GB.isFinish(ans1); //checks if finish after the AI's move
+				//System.out.println("inside the while loop: "+GB.getPlayer()); this line is for debug purposes
 			}
+			
+			if (GB.getPlayer() == 1) {
+				System.out.print("Whooops!!! The Computer won the game.");
+			} 
+			if (GB.getPlayer() == 2) {
+				System.out.print(" Congratulations!!! You won the game.");
+			} 
+			
 			
 		} else {
 			//AI plays first (AI--> setBoard --> REPL)
 			//AI is always player1
-			while(!GB.isFinish(ans1)) {
-					
+			int moveVal2 = 0, maxCol = GB.column-1;
+			boolean finish = false;
+			
+			GB.print_Board();
+			
+			while(!finish) {
+				
 				GB.setPlayer(1);
 				System.out.println("I'm thinking...");
 				AI.algorithm(AI.level);
 				GB.print_Board();
 				
-				int maxCol = GB.column-1;
-				System.out.println("Your move [column 0-" + maxCol +"]" );
-				GB.setPlayer(2);
-				int moveVal2 = 0;
-				moveVal2 = sc.nextInt();
-				GB.setBoard(moveVal2);
-				GB.print_Board();
+				finish = GB.isFinish(ans1); //checks if finish after AI's move
+				
+				if(!finish) {
+					System.out.print("Your move [column 0-" + maxCol +"] " );
+					GB.setPlayer(2);
+					moveVal2 = sc.nextInt();
+					GB.setBoard(moveVal2);
+					GB.print_Board();
+				}
+				
+				finish = GB.isFinish(ans1); //checks if finish after user's move
 			}
 			
 			if (GB.getPlayer() == 1) {
