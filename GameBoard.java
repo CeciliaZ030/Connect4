@@ -117,13 +117,14 @@ public class GameBoard {
 			
 		}
 		
-		if (this.player == 1) {
-			this.board[i][nth] = 'O';
+		if(this.board[i][nth] == ' ') { //add only if that position is empty
+			if (this.player == 1) {
+				this.board[i][nth] = 'O';
 			// System.out.println("col: " + nth + " || row: " + i);
-		} else {
-			this.board[i][nth] = 'X';
+			} else {
+				this.board[i][nth] = 'X';
 			// System.out.println("col:" + nth + " || row:" + i);
-			
+			}
 		}
 	}
 
